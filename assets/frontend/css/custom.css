@@ -1,0 +1,103 @@
+.navbar-brand > img {
+    width: 70px;
+}
+.hilight-section {
+    background: #353866;
+    color: #fff;
+    padding: 20px 0px;
+    margin: 25px 20px;
+    border-radius: 10px;
+}
+.section-box {
+    border: 2px solid #ffffff;
+    padding: 20px 0px;
+    border-radius: 20px;
+}
+.section-box > h4 {
+    color: #fff;
+    font-size: 20px;
+    margin: 0;
+    text-align: center;
+}
+.section-box > p{
+    text-align: center;
+    color: #fff !important;
+}
+.homepage-event {
+    background: linear-gradient(0deg, rgba(15, 4, 10, 0.413), rgba(15, 4, 10, 0.413)),url('../img/event-bg.jpg');
+    height: 90vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* padding: 7px; */
+}
+.enent-title{}
+.enent-title > h3 {
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 20px 0px;
+}
+.event-box > h4 {
+    color: #2EC4B6;
+    font-size: 17px;
+}
+.event-list > ul{}
+.event-list > ul > li {
+    color: #fff;
+    font-style: italic;
+    list-style: circle;
+}
+.event-btn {
+    background-color: #2EC4B6;
+    color: #fff;
+    padding: 8px 18px;
+    font-size: 17px;
+}
+.Counter-section {
+    background: #353866;
+    padding: 20px 0px;
+    color: #fff;
+}
+.counter-box{}
+.counter-box > span {
+    font-size: 40px;
+    padding: 10px 0px;
+    font-weight: 700;
+}
+.counter-box > .fa {
+    font-size: 25px;
+    color: #28ffe9;
+}
+.counter-box > h4 {
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: 0;
+}
+/* .n-box1 {
+    background: linear-gradient(0deg, rgba(15, 4, 10, 0.413), rgba(15, 4, 10, 0.413)),url('../img/notice-1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* padding: 7px; */
+ 
+/* .student-say-section{
+}
+.student-say-title{}
+.student-say-title > h3{}
+.student-say-box{}
+.say-tex{} */
+.say-tex > p {
+    font-size: 16px;
+    line-height: 25px;
+    color: #000;
+}
+/* .student-image{} */
+.student-image > img{
+    /* width: 200px; */
+}
+
+
+/* .member-form-left{}
+.member-form-left > h2{}
+.member-form-left > img{}
+.address > address{}
+.phone > p{} */

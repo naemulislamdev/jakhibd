@@ -1,0 +1,26 @@
+@media (max-width: 767px) {
+    .section-box{
+        margin-bottom: 30px;
+    }
+    .homepage-event{
+        height: 100vh;
+    }
+    .counter-box{
+        margin-bottom: 30px;
+    }
+    .owl-carousel .owl-item img {
+        display: block;
+        width: 100px;
+        margin: 0 auto;
+    }
+    .member-form-left{
+        margin-bottom: 30px;
+    }
+    
+}
+@media (max-width: 480px){
+    table {
+        display: block;
+        overflow-y: auto !important;
+    }
+}
