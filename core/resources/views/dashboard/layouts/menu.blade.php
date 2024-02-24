@@ -243,11 +243,11 @@ $mnu_title_var2 = 'title_' . env('DEFAULT_LANGUAGE');
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('sub.department.index') }}">
+                        <a href="{{ route('subject.index') }}">
                             <span class="nav-icon">
                                 <i class="material-icons">&#xe433;</i>
                             </span>
-                            <span class="nav-text">{{ __('Sub Department') }}</span>
+                            <span class="nav-text">{{ __('Subject') }}</span>
                         </a>
                     </li>
                     <li>

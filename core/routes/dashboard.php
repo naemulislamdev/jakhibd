@@ -22,6 +22,7 @@ use App\Http\Controllers\Dashboard\LifeMemberController;
 use App\Http\Controllers\Dashboard\ResultController;
 use App\Http\Controllers\Dashboard\StudentController;
 use App\Http\Controllers\Dashboard\SubDepartmentController;
+use App\Http\Controllers\Dashboard\SubjectController;
 use App\Http\Controllers\Dashboard\TeacherController;
 use Illuminate\Support\Facades\Route;
 
@@ -284,6 +285,13 @@ Route::post('/sub-department/store', [SubDepartmentController::class,'store'])->
 Route::get('/sub-department/edit/{id}', [SubDepartmentController::class,'edit'])->name('sub.department.edit');
 Route::put('/sub-department/update/{id}', [SubDepartmentController::class,'update'])->name('sub.department.update');
 Route::get('/sub-department/destroy/{id}', [SubDepartmentController::class,'destroy'])->name('sub.department.destroy');
+// Subject route
+Route::get('/subject/index', [SubjectController::class,'index'])->name('subject.index');
+Route::get('/subject/create', [SubjectController::class,'create'])->name('subject.create');
+Route::post('/subject/store', [SubjectController::class,'store'])->name('subject.store');
+Route::get('/subject/edit/{id}', [SubjectController::class,'edit'])->name('subject.edit');
+Route::put('/subject/update/{id}', [SubjectController::class,'update'])->name('subject.update');
+Route::get('/subject/destroy/{id}', [SubjectController::class,'destroy'])->name('subject.destroy');
 // Student management route
 Route::get('/student/index',[StudentController::class,'index'])->name('student.index');
 Route::get('/student/create',[StudentController::class,'create'])->name('student.create');
