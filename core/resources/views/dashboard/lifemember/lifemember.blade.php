@@ -7,14 +7,14 @@
     <div class="padding">
         <div class="box">
             <div class="box-header dker">
-                <h3>Life</h3>
+                <h3>Life Member</h3>
                 <small>
                     <a href="{{ route('adminHome') }}">{{ __('backend.home') }}</a> /
                     <a>Life member</a>
                 </small>
             </div>
             <div class="table-responsive">
-                <table class="table table-bordered" style="width: 100%" id="">
+                <table class="table table-bordered" style="width: 100%" id="dataTable">
                     <thead class="dker">
                         <th class="text-center" style="max-width:150px;">{{ __('SL') }}</th>
                         <th class="text-center" style="max-width:150px;">{{ __('Name') }}</th>
@@ -50,12 +50,13 @@
                                     <div class="text-center">{{ $lifeMember->address }}</div>
                                 </td>
                                 <td>
-                                    <div class="text-center">
+                                    <a class="btn btn-sm info" href="{{ route('lifeMember.show', $lifeMember->id) }}">
+                                        <i class="material-icons"></i>
+                                    </a>
                                         <button type="button" class="btn btn-sm warning" data-toggle="modal"
                                             data-target="#deleteMember__{{ $lifeMember->id }}">
                                             <i class="material-icons"></i>
                                         </button>
-                                    </div>
                                 </td>
                                 <!-- Modal -->
                                 <div class="modal fade" id="deleteMember__{{ $lifeMember->id }}" tabindex="-1"

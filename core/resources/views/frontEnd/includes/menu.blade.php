@@ -240,6 +240,20 @@
                 @endforeach
                 <li class="dropdown">
                     <a href="javascript:void(0)" class="dropdown-toggle " data-toggle="dropdown"
+                        data-hover="dropdown" data-delay="0" data-close-others="true">বদরী ৩১৩ রেজিষ্ট্রার<i
+                            class="fa fa-angle-down"></i></a>
+                            @php
+                                $bodoriRegisters = App\Models\Topic::where('webmaster_id',12)->where('status',1)->get();
+                            @endphp
+                    <ul class="dropdown-menu">
+                        @foreach($bodoriRegisters as $bodoriRegister)
+                        <li><a href="{{ route('getBodori.register',$bodoriRegister->id)}}">{{$bodoriRegister->title_bd}}</a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropdown-toggle " data-toggle="dropdown"
                         data-hover="dropdown" data-delay="0" data-close-others="true">বিভাগসমূহ<i
                             class="fa fa-angle-down"></i></a>
                             @php

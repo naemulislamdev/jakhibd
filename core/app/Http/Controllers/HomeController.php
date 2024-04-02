@@ -7,6 +7,7 @@ use App;
 use App\Http\Requests\LifeMemberRequest;
 use App\Models\Banner;
 use App\Mail\NotificationEmail;
+use App\Models\BadriRegister;
 use App\Models\Comment;
 use App\Models\Committee;
 use App\Models\CommitteeType;
@@ -14,6 +15,7 @@ use App\Models\Contact;
 use App\Models\LifeMember;
 use App\Models\Section;
 use App\Models\Setting;
+use App\Models\Result;
 use App\Models\Topic;
 use App\Models\TopicCategory;
 use App\Models\TopicField;
@@ -21,8 +23,10 @@ use App\Models\User;
 use App\Models\Webmail;
 use App\Models\WebmasterSection;
 use App\Models\WebmasterSetting;
+use App\Repositories\BadriRegisterRepository;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\StudentRepository;
+use App\Repositories\SubjectRepository;
 use App\Repositories\TeacherRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -30,6 +34,8 @@ use Mail;
 use Redirect;
 use Helper;
 use Auth;
+use Remls\HijriDate\Facades\HijriDate;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -231,6 +237,7 @@ class HomeController extends Controller
         if ($WebmasterSettings->default_currency_id > 0) {
             $HomePage = Topic::where("status", 1)->find($WebmasterSettings->default_currency_id);
         }
+        $events = Topic::where('webmaster_id',13)->where('status',1)->get();
 
         return view(
             "frontEnd.home",
@@ -250,7 +257,8 @@ class HomeController extends Controller
                 "HomePartners",
                 "HomeOpinions",
                 "HomeVides",
-                "LatestNews"
+                "LatestNews",
+                "events"
             )
         );
     }
@@ -610,15 +618,8 @@ class HomeController extends Controller
             return redirect()->action('HomeController@HomePage');
         }
     }
-    public function noticeByLang($lang = "", $section = 0, $id = 0)
+    public function noticeByLang($section = 0, $id = 0)
     {
-
-        if ($lang != "") {
-            // Set Language
-            App::setLocale($lang);
-            \Session::put('locale', $lang);
-        }
-
         // General Webmaster Settings
         $WebmasterSettings = WebmasterSetting::find(1);
 
@@ -1796,7 +1797,10 @@ class HomeController extends Controller
             'designation' => $request->designation,
             'years' => $request->years,
             'phone' => $request->phone,
-            'address' => $request->address
+            'address' => $request->address,
+            'donate_type' => $request->donate_type,
+            'donate_amount' => $request->donate_amount,
+            'refarence' => $request->refarence,
         ]);
         return back()->with('message', 'Data has been send successfully!');
     }
@@ -2055,6 +2059,96 @@ class HomeController extends Controller
             return redirect()->action('HomeController@HomePage');
         }
     }
+    public function getDepartments()
+    {
+        // General Webmaster Settings
+        $WebmasterSettings = WebmasterSetting::find(1);
+
+        $id = $WebmasterSettings->contact_page_id;
+        $Topic = Topic::where('status', 1)->find($id);
+
+
+        if (!empty($Topic) && ($Topic->expire_date == '' || ($Topic->expire_date != '' && $Topic->expire_date >= date("Y-m-d")))) {
+
+            // update visits
+            $Topic->visits = $Topic->visits + 1;
+            $Topic->save();
+
+            // get Webmaster section settings by ID
+            $WebmasterSection = WebmasterSection::find($Topic->webmaster_id);
+
+            if (!empty($WebmasterSection)) {
+
+                // Get current Category Section details
+                $CurrentCategory = Section::find($Topic->section_id);
+                // Get a list of all Category ( for side bar )
+                $Categories = Section::where('webmaster_id', '=', $WebmasterSection->id)->where(
+                    'father_id',
+                    '=',
+                    '0'
+                )->where('status', 1)->orderby('webmaster_id', 'asc')->orderby('row_no', 'asc')->get();
+
+                // Get Most Viewed
+                $TopicsMostViewed = Topic::where([['webmaster_id', '=', $WebmasterSection->id], ['status', 1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orwhere([['webmaster_id', '=', $WebmasterSection->id], ['status', 1], ['expire_date', null]])->orderby('visits', 'desc')->limit(3)->get();
+
+
+                $SideBanners = Banner::where('section_id', $WebmasterSettings->side_banners_section_id)->where(
+                    'status',
+                    1
+                )->orderby('row_no', 'asc')->get();
+
+                // Get Latest News
+                $LatestNews = $this->latest_topics($WebmasterSettings->latest_news_section_id);
+
+
+                // Page Title, Description, Keywords
+                $seo_title_var = "seo_title_" . @Helper::currentLanguage()->code;
+                $seo_description_var = "seo_description_" . @Helper::currentLanguage()->code;
+                $seo_keywords_var = "seo_keywords_" . @Helper::currentLanguage()->code;
+                $tpc_title_var = "title_" . @Helper::currentLanguage()->code;
+                $site_desc_var = "site_desc_" . @Helper::currentLanguage()->code;
+                $site_keywords_var = "site_keywords_" . @Helper::currentLanguage()->code;
+                if ($Topic->$seo_title_var != "") {
+                    $PageTitle = $Topic->$seo_title_var;
+                } else {
+                    $PageTitle = $Topic->$tpc_title_var;
+                }
+                if ($Topic->$seo_description_var != "") {
+                    $PageDescription = $Topic->$seo_description_var;
+                } else {
+                    $PageDescription = Helper::GeneralSiteSettings($site_desc_var);
+                }
+                if ($Topic->$seo_keywords_var != "") {
+                    $PageKeywords = $Topic->$seo_keywords_var;
+                } else {
+                    $PageKeywords = Helper::GeneralSiteSettings($site_keywords_var);
+                }
+                // .. end of .. Page Title, Description, Keywords
+                $departments = DepartmentRepository::query()->where('is_active', true)->get();
+                return view(
+                    "frontEnd.department",
+                    compact(
+                        "WebmasterSettings",
+                        "LatestNews",
+                        "Topic",
+                        "SideBanners",
+                        "WebmasterSection",
+                        "Categories",
+                        "CurrentCategory",
+                        "PageTitle",
+                        "PageDescription",
+                        "PageKeywords",
+                        "TopicsMostViewed",
+                        "departments"
+                    )
+                );
+            } else {
+                return redirect()->action('HomeController@HomePage');
+            }
+        } else {
+            return redirect()->action('HomeController@HomePage');
+        }
+    }
     public function committeeList($committeeType)
     {
         // General Webmaster Settings
@@ -2120,7 +2214,7 @@ class HomeController extends Controller
                     $PageKeywords = Helper::GeneralSiteSettings($site_keywords_var);
                 }
                 // .. end of .. Page Title, Description, Keywords
-                $committees = Committee::where('is_active', true)->where('committee_type_id', $committeeType)->get();
+                $committees = Committee::where('is_active', true)->where('committee_type_id', $committeeType)->orderBy('serial', 'asc')->get();
                 $committeeType = CommitteeType::query()->where('id', $committeeType)->first();
 
                 return view(
@@ -2146,6 +2240,228 @@ class HomeController extends Controller
             }
         } else {
             return redirect()->action('HomeController@HomePage');
+        }
+    }
+    public function getBodoriRegister($badriRegisterType)
+    {
+        // General Webmaster Settings
+        $WebmasterSettings = WebmasterSetting::find(1);
+
+        $id = $WebmasterSettings->contact_page_id;
+        $Topic = Topic::where('status', 1)->find($id);
+
+
+        if (!empty($Topic) && ($Topic->expire_date == '' || ($Topic->expire_date != '' && $Topic->expire_date >= date("Y-m-d")))) {
+
+            // update visits
+            $Topic->visits = $Topic->visits + 1;
+            $Topic->save();
+
+            // get Webmaster section settings by ID
+            $WebmasterSection = WebmasterSection::find($Topic->webmaster_id);
+
+            if (!empty($WebmasterSection)) {
+
+                // Get current Category Section details
+                $CurrentCategory = Section::find($Topic->section_id);
+                // Get a list of all Category ( for side bar )
+                $Categories = Section::where('webmaster_id', '=', $WebmasterSection->id)->where(
+                    'father_id',
+                    '=',
+                    '0'
+                )->where('status', 1)->orderby('webmaster_id', 'asc')->orderby('row_no', 'asc')->get();
+
+                // Get Most Viewed
+                $TopicsMostViewed = Topic::where([['webmaster_id', '=', $WebmasterSection->id], ['status', 1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orwhere([['webmaster_id', '=', $WebmasterSection->id], ['status', 1], ['expire_date', null]])->orderby('visits', 'desc')->limit(3)->get();
+
+
+                $SideBanners = Banner::where('section_id', $WebmasterSettings->side_banners_section_id)->where(
+                    'status',
+                    1
+                )->orderby('row_no', 'asc')->get();
+
+                // Get Latest News
+                $LatestNews = $this->latest_topics($WebmasterSettings->latest_news_section_id);
+
+
+                // Page Title, Description, Keywords
+                $seo_title_var = "seo_title_" . @Helper::currentLanguage()->code;
+                $seo_description_var = "seo_description_" . @Helper::currentLanguage()->code;
+                $seo_keywords_var = "seo_keywords_" . @Helper::currentLanguage()->code;
+                $tpc_title_var = "title_" . @Helper::currentLanguage()->code;
+                $site_desc_var = "site_desc_" . @Helper::currentLanguage()->code;
+                $site_keywords_var = "site_keywords_" . @Helper::currentLanguage()->code;
+                if ($Topic->$seo_title_var != "") {
+                    $PageTitle = $Topic->$seo_title_var;
+                } else {
+                    $PageTitle = $Topic->$tpc_title_var;
+                }
+                if ($Topic->$seo_description_var != "") {
+                    $PageDescription = $Topic->$seo_description_var;
+                } else {
+                    $PageDescription = Helper::GeneralSiteSettings($site_desc_var);
+                }
+                if ($Topic->$seo_keywords_var != "") {
+                    $PageKeywords = $Topic->$seo_keywords_var;
+                } else {
+                    $PageKeywords = Helper::GeneralSiteSettings($site_keywords_var);
+                }
+                // .. end of .. Page Title, Description, Keywords
+                $badriRegisters = BadriRegisterRepository::query()->where('is_active', true)->where('badri_type_id', $badriRegisterType)->get();
+                $badriType = Topic::where('id', $badriRegisterType)->first();
+
+                return view(
+                    "frontEnd.badri_register",
+                    compact(
+                        "WebmasterSettings",
+                        "LatestNews",
+                        "Topic",
+                        "SideBanners",
+                        "WebmasterSection",
+                        "Categories",
+                        "CurrentCategory",
+                        "PageTitle",
+                        "PageDescription",
+                        "PageKeywords",
+                        "TopicsMostViewed",
+                        "badriRegisters",
+                        "badriType"
+                    )
+                );
+            } else {
+                return redirect()->action('HomeController@HomePage');
+            }
+        } else {
+            return redirect()->action('HomeController@HomePage');
+        }
+    }
+    public function resultSearch()
+    {
+        // General Webmaster Settings
+        $WebmasterSettings = WebmasterSetting::find(1);
+
+        $id = $WebmasterSettings->contact_page_id;
+        $Topic = Topic::where('status', 1)->find($id);
+
+
+        if (!empty($Topic) && ($Topic->expire_date == '' || ($Topic->expire_date != '' && $Topic->expire_date >= date("Y-m-d")))) {
+
+            // update visits
+            $Topic->visits = $Topic->visits + 1;
+            $Topic->save();
+
+            // get Webmaster section settings by ID
+            $WebmasterSection = WebmasterSection::find($Topic->webmaster_id);
+
+            if (!empty($WebmasterSection)) {
+
+                // Get current Category Section details
+                $CurrentCategory = Section::find($Topic->section_id);
+                // Get a list of all Category ( for side bar )
+                $Categories = Section::where('webmaster_id', '=', $WebmasterSection->id)->where(
+                    'father_id',
+                    '=',
+                    '0'
+                )->where('status', 1)->orderby('webmaster_id', 'asc')->orderby('row_no', 'asc')->get();
+
+                // Get Most Viewed
+                $TopicsMostViewed = Topic::where([['webmaster_id', '=', $WebmasterSection->id], ['status', 1], ['expire_date', '>=', date("Y-m-d")], ['expire_date', '<>', null]])->orwhere([['webmaster_id', '=', $WebmasterSection->id], ['status', 1], ['expire_date', null]])->orderby('visits', 'desc')->limit(3)->get();
+
+
+                $SideBanners = Banner::where('section_id', $WebmasterSettings->side_banners_section_id)->where(
+                    'status',
+                    1
+                )->orderby('row_no', 'asc')->get();
+
+                // Get Latest News
+                $LatestNews = $this->latest_topics($WebmasterSettings->latest_news_section_id);
+
+
+                // Page Title, Description, Keywords
+                $seo_title_var = "seo_title_" . @Helper::currentLanguage()->code;
+                $seo_description_var = "seo_description_" . @Helper::currentLanguage()->code;
+                $seo_keywords_var = "seo_keywords_" . @Helper::currentLanguage()->code;
+                $tpc_title_var = "title_" . @Helper::currentLanguage()->code;
+                $site_desc_var = "site_desc_" . @Helper::currentLanguage()->code;
+                $site_keywords_var = "site_keywords_" . @Helper::currentLanguage()->code;
+                if ($Topic->$seo_title_var != "") {
+                    $PageTitle = $Topic->$seo_title_var;
+                } else {
+                    $PageTitle = $Topic->$tpc_title_var;
+                }
+                if ($Topic->$seo_description_var != "") {
+                    $PageDescription = $Topic->$seo_description_var;
+                } else {
+                    $PageDescription = Helper::GeneralSiteSettings($site_desc_var);
+                }
+                if ($Topic->$seo_keywords_var != "") {
+                    $PageKeywords = $Topic->$seo_keywords_var;
+                } else {
+                    $PageKeywords = Helper::GeneralSiteSettings($site_keywords_var);
+                }
+                // .. end of .. Page Title, Description, Keywords
+                $departments = DepartmentRepository::query()->where('is_active', true)->get();
+                $years = Result::select('year')->distinct()->get();
+                $examTypes = Result::select('exam_type')->distinct()->get();
+
+                return view(
+                    "frontEnd.search_result",
+                    compact(
+                        "WebmasterSettings",
+                        "LatestNews",
+                        "Topic",
+                        "SideBanners",
+                        "WebmasterSection",
+                        "Categories",
+                        "CurrentCategory",
+                        "PageTitle",
+                        "PageDescription",
+                        "PageKeywords",
+                        "TopicsMostViewed",
+                        "departments",
+                        "years",
+                        "examTypes"
+                    )
+                );
+            } else {
+                return redirect()->action('HomeController@HomePage');
+            }
+        } else {
+            return redirect()->action('HomeController@HomePage');
+        }
+    }
+    // public function getSubjectOnAjax($id)
+    // {
+    //     $subjects = SubjectRepository::query()->where('department_id', $id)->where('is_active', true)->get();
+    //     $html = '<option selected disabled>বিষয় নির্বাচন করুন</option>';
+    //     foreach ($subjects as $subject) {
+    //         $html .= '<option value="' . $subject->id . '">' . $subject->name . '</option>';
+    //     }
+    //     return $html;
+    // }
+    public function resultPublish(Request $request)
+    {
+        $request->validate([
+            'department' => 'required',
+            'year' => 'required',
+            'exam_type' => 'required',
+            'roll' => 'required',
+        ]);
+        $datas = Result::with('student')->where('department_id', $request->department)
+            ->where('year', $request->year)
+            ->where('exam_type', $request->exam_type)
+            ->where('roll', $request->roll)->get();
+        $total_marks = Result::with('student')->where('department_id', $request->department)
+            ->where('year', $request->year)
+            ->where('exam_type', $request->exam_type)
+            ->where('roll', $request->roll)->sum('mark');
+        if ($datas->count()) {
+            $data['results'] = $datas;
+            $data['total_marks'] = $total_marks;
+            $data['GeneralWebmasterSections'] = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
+            return view('frontEnd.result_publish', $data);
+        } else {
+            return back()->with('errorMessage', 'Data Not Found!');
         }
     }
 }

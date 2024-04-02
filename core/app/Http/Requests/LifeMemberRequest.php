@@ -27,9 +27,12 @@ class LifeMemberRequest extends FormRequest
             'name' => 'required|string|max:20',
             'father_name' => 'required|string|max:20',
             'designation' => 'required|string|max:20',
-            'years' => 'required',
+            'years' => 'required|string',
             'phone' => 'required|min:11|max:11',
-            'address' => 'required|string|max:200'
+            'address' => 'required|string|max:200',
+            'donate_type' => 'required|in:year,month',
+            'donate_amount'=> 'required|string',
+            'refarence'=> 'required|string'
         ];
     }
 }

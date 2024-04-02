@@ -77,6 +77,15 @@
                     <div class="row">
                         <div class="col-md-3 mb-3">
                             <div class="form-group">
+                                <label>সিট নং <span class="text-danger">*</span></label>
+                                <input type="text" name="reg" class="form-control" placeholder="Enter student seat no" value="{{ $student->reg }}">
+                                @error('reg')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
                                 <label>ছাত্র এনআইডি <span class="text-danger">*</span></label>
                                 <input type="number" name="student_nid" class="form-control" placeholder="Enter student nid" value="{{ $student->student_nid}}">
                                 @error('student_nid')
@@ -104,16 +113,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="form-group">
-                                <label>রক্তের গুরুপ <span class="text-danger">*</span></label>
-                                <input type="text" name="blood" class="form-control" placeholder="Enter blood group"
-                                    value="{{ $student->blood }}">
-                                @error('blood')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
+
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-3">
@@ -149,7 +149,27 @@
                                 @enderror
                             </div>
                         </div>
-
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label>রক্তের গুরুপ <span class="text-danger">*</span></label>
+                                <input type="text" name="blood" class="form-control" placeholder="Enter blood group"
+                                    value="{{ $student->blood }}">
+                                @error('blood')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label>ভর্তির তারিখ <span class="text-danger">*</span></label>
+                                <input type="date" name="admision_date" class="form-control" value="{{ $student->admision_date}}">
+                                @error('admision_date')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">

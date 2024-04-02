@@ -16,4 +16,7 @@ class Student extends Model
     public function subDepartment(){
         return $this->belongsTo(SubDepartment::class);
     }
+    public function studentLog(){
+        return $this->hasOne(StudentLog::class,'student_id');
+    }
 }

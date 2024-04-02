@@ -25,7 +25,6 @@ class SubjectRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:30',
-            'code' => 'nullable|string|max:30',
             'department_id' => 'required',
             'serial' =>'nullable|string',
             'description' =>'nullable|string'

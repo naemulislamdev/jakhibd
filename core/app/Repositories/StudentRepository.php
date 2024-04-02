@@ -32,10 +32,12 @@ class StudentRepository extends Repository
             'name' => $request->name,
             'department_id' => $request->department_id,
             'roll' => $request->roll,
+            'reg' => $request->reg,
             'gender' => $request->gender,
             'date_of_birth' => $request->date_of_birth,
             'student_nid' => $request->student_nid,
             'birth_reg_no' => $request->birth_reg_no,
+            'admision_date' => $request->admision_date,
             'blood' => $request->blood,
             'phone' => $request->phone,
             'email' => $request->email,
@@ -50,7 +52,8 @@ class StudentRepository extends Repository
             'absent_guardian_phone' => $request->absent_guardian_phone,
             'address' => $request->address,
             'image' => $imageFinalName,
-            'is_active' => true
+            'is_active' => true,
+            'session_year'=> date('Y')
         ]);
         return $createStudent;
     }
@@ -72,10 +75,12 @@ class StudentRepository extends Repository
             'name' => $request->name,
             'department_id' => $request->department_id,
             'roll' => $request->roll,
+            'reg' => $request->reg,
             'gender' => $request->gender,
             'date_of_birth' => $request->date_of_birth,
             'student_nid' => $request->student_nid,
             'birth_reg_no' => $request->birth_reg_no,
+            'admision_date' => $request->admision_date,
             'blood' => $request->blood,
             'phone' => $request->phone,
             'email' => $request->email,

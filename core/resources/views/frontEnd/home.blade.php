@@ -1,59 +1,145 @@
 @extends('frontEnd.layout')
 
 @section('content')
-<style>
-    .section-box > p {
-        color: #fff;
-}
-.site-top {
-    background: #2e3e4e;
-}
-header .navbar {
-    min-height: 90px;
-    background: #353866;
-}
-.navbar .nav > li > a {
-    color: #fff !important;
-    text-shadow: none;
-}
-.flexslider .slides img {
-    width: 100%;
-    display: block;
-    height: 57vh;
-}
-</style>
+    <style>
+        .section-box>p {
+            color: #fff;
+        }
+
+        .site-top {
+            background: #2e3e4e;
+        }
+
+        header .navbar {
+            min-height: 90px;
+            background: #353866;
+        }
+
+        .navbar .nav>li>a {
+            color: #fff !important;
+            text-shadow: none;
+        }
+
+        .flexslider .slides img {
+            width: 100%;
+            display: block;
+            height: 57vh;
+        }
+
+        .bangla-clander {
+            text-align: center;
+            background: #2e3e4e;
+            padding: 0px 0px;
+            color: #fff;
+        }
+
+        .bangla-clander>marquee>h2 {
+            color: #fff;
+            font-size: 28px;
+        }
+
+        .clander-col {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .clander-section {
+            margin-top: 10px;
+        }
+    </style>
 
     <!-- start Home Slider -->
     @include('frontEnd.includes.slider')
     <!-- end Home Slider -->
+    @php
+        use Rakibhstu\Banglanumber\NumberToBangla;
+
+        $numto = new NumberToBangla();
+        $englishDate = \Carbon\Carbon::parse(now())->translatedFormat('j F Y');
+        $englishDay = \Carbon\Carbon::parse(now())->translatedFormat('l');
+        $timeTo = \Carbon\Carbon::now();
+        $timeG = date('g', strtotime($timeTo));
+        $timeM = date('i', strtotime($timeTo));
+        $months = [
+            'Jan' => 'জানয়িারি',
+            'Feb' => 'ফেব্রুয়ারী',
+            'Mar' => 'মার্চ',
+            'Apr' => 'এপ্রিল',
+            'May' => 'মে',
+            'Jun' => 'জুন',
+            'Jul' => 'জুলাই',
+            'Aug' => 'আগস্ট',
+            'Sep' => 'সেপ্টেম্বর',
+            'Oct' => 'অক্টোবর',
+            'Nov' => 'নভেম্বর',
+            'Dec' => 'ডিসেম্বর',
+        ];
+        $your_date = date('y-m-d'); // The Current Date
+        $en_month = date('M', strtotime($your_date));
+        foreach ($months as $en => $ar) {
+            if ($en == $en_month) {
+                $ar_month = $ar;
+            }
+        }
+
+        $find = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+        $replace = ['শনিবার', 'রবিবার', 'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার', 'শুক্রবার'];
+        $ar_day_format = date('D'); // The Current Day
+        $ar_day = str_replace($find, $replace, $ar_day_format);
+
+        header('Content-Type: text/html; charset=utf-8');
+        $standard = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        $eastern_arabic_symbols = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        $current_date = date('d') . ' ' . $ar_month . ' ' . date('Y');
+        $englishToBanglaDate = str_replace($standard, $eastern_arabic_symbols, $current_date);
+
+        // return $arabic_date;
+
+    @endphp
+    <section class="clander-section">
+        <div class="clander-col">
+            <div class="bangla-clander">
+                <marquee onmouseover="this.stop();" onmouseout="this.start();">
+                    <h2><span class="hijriDate"></span>, {{ $englishToBanglaDate }}, <span id="bongabdo"></span>,
+                        সময়ঃ{{ $numto->bnNum($timeG) . ':' . $numto->bnNum($timeM) . 'মিনিট' }}</h2>
+                </marquee>
+            </div>
+        </div>
+    </section>
     <section class="my-3">
         <div class="container">
             <div class="row hilight-section">
                 <div class="col-md-3">
-                    <div class="section-box">
-                        <h4>ফলাফল</h4>
-                        <p>For individuals</p>
-                    </div>
+                    <a href="{{ route('result.page') }}">
+                        <div class="section-box">
+                            <h4>ফলাফল</h4>
+                            <p>For individuals</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-md-3">
-                    <a href="{{ route('frontend.department')}}">
-                    <div class="section-box">
-                        <h4>বিভাগসমূহ</h4>
-                        <p>For individuals</p>
-                    </div>
-                </a>
+                    <a href="{{ route('getDepartments') }}">
+                        <div class="section-box">
+                            <h4>বিভাগসমূহ</h4>
+                            <p>For individuals</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-md-3">
-                    <div class="section-box">
-                        <h4>ডকুমেন্টসমূহ</h4>
-                        <p>For individuals</p>
-                    </div>
+                    <a href="#documents">
+                        <div class="section-box">
+                            <h4>ডকুমেন্টসমূহ</h4>
+                            <p>For individuals</p>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-md-3">
-                    <div class="section-box">
-                        <h4>রেজিস্ট্রেশন শাখা</h4>
-                        <p>যোগাযোগ করুন</p>
-                    </div>
+                    <a href="#registration">
+                        <div class="section-box">
+                            <h4>রেজিস্ট্রেশন শাখা</h4>
+                            <p>যোগাযোগ করুন</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -112,17 +198,19 @@ header .navbar {
                                 নিম্নোক্ত বিভাগসমূহ সূচারুরূপে পরিচালিত হচ্ছে</h4>
                             <div class="event-list">
                                 <ul>
-                                    <li>প্রাইমারী-মক্তব বিভাগ</li>
-                                    <li>হিফজুল কুরআন বিভাগ</li>
+                                    @foreach ($events as $event)
+                                        <li>{{ $event->title_bd }}</li>
+                                    @endforeach
+                                    {{-- <li>হিফজুল কুরআন বিভাগ</li>
                                     <li>কিতাব বিভাগ</li>
                                     <li>ফতওয়া ও ফারায়েয বিভাগ</li>
                                     <li>তাফসীরুল কুরআন প্রশিক্ষণ কোর্স</li>
                                     <li>ক্বেরাত বিভাগ</li>
                                     <li>মাসিক দেয়ালিকা</li>
                                     <li>বক্তৃতা প্রশিক্ষণ মজলিস</li>
-                                    <li>ইয়াতিমখানা ও লিল্লাহ বোর্ডিং</li>
+                                    <li>ইয়াতিমখানা ও লিল্লাহ বোর্ডিং</li> --}}
                                 </ul>
-                                <a href="#" class="btn btn-info event-btn">বিস্তারিত</a>
+                                <a href="{{ url('/events') }}" class="btn btn-info event-btn">বিস্তারিত</a>
                             </div>
                         </div>
                     </div>
@@ -260,7 +348,8 @@ header .navbar {
                                         <p>{!! $HomeOpinion->details_bd !!}</p>
                                     </div>
                                     <div class="student-image">
-                                        <img src="{{ asset('uploads/topics/' . $HomeOpinion->photo_file) }}" alt="">
+                                        <img src="{{ asset('uploads/topics/' . $HomeOpinion->photo_file) }}"
+                                            alt="">
                                     </div>
                                 </div>
                             @endforeach
@@ -274,7 +363,7 @@ header .navbar {
     <section class="memberShipForm" style="
     background: #4D4D4D;
     padding: 30px 0px;color:#fff;
-">
+" id="registration">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 mb-4">
@@ -316,7 +405,7 @@ text-align: center;">
                         <form action="{{ route('frontend.life.member') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <input type="text" class="form-control" name="name" placeholder="নাম *">
+                                <input type="text" class="form-control" name="name" placeholder="সম্পুর্ন নাম *">
                                 <span class="text-danger">
                                     {{ $errors->has('name') ? $errors->first('name') : '' }}
                                 </span>
@@ -331,7 +420,7 @@ text-align: center;">
                                 </span>
                             </div>
                             <div class="form-group">
-                                <input type="number" class="form-control" name="years" placeholder="বয়স *">
+                                <input type="text" class="form-control" name="years" placeholder="বয়স *">
                                 <span class="text-danger">
                                     {{ $errors->has('years') ? $errors->first('years') : '' }}
                                 </span>
@@ -343,7 +432,7 @@ text-align: center;">
                                 </span>
                             </div>
                             <div class="form-group">
-                                <input type="number" class="form-control" name="phone" placeholder="টেলিফোন *">
+                                <input type="text" class="form-control" name="phone" placeholder="টেলিফোন *">
                                 <span class="text-danger">
                                     {{ $errors->has('phone') ? $errors->first('phone') : '' }}
                                 </span>
@@ -352,6 +441,59 @@ text-align: center;">
                                 <textarea class="form-control" name="address" placeholder="স্থায়ী ঠিকানা *"></textarea>
                                 <span class="text-danger">
                                     {{ $errors->has('address') ? $errors->first('address') : '' }}
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="donate_type">
+                                    <option selected disabled>দানের ধরন নির্বাচন করুন</option>
+                                    <option value="year">বাৎসরিক</option>
+                                    <option value="month">মাসিক</option>
+                                </select>
+                                <span class="text-danger">
+                                    {{ $errors->has('donate_type') ? $errors->first('donate_type') : '' }}
+                                </span>
+                            </div>
+                            <style>
+                                .form-check-label {
+                                    color: #fff;
+                                    margin-right: 20px;
+                                    font-size: 17px;
+                                }
+
+                                .form-check {
+                                    margin: 20px 8px;
+                                }
+                            </style>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="amount1" value="১০০০০">
+                                <label class="form-check-label" for="amount1">১০০০০</label>
+
+                                <input type="checkbox" class="form-check-input" id="amount2" value="৫০০০">
+                                <label class="form-check-label" for="amount2">৫০০০</label>
+
+                                <input type="checkbox" class="form-check-input" id="amount3" value="২০০০">
+                                <label class="form-check-label" for="amount3">২০০০</label>
+
+                                <input type="checkbox" class="form-check-input" id="amount4" value="১০০০">
+                                <label class="form-check-label" for="amount4">১০০০</label>
+
+                                <input type="checkbox" class="form-check-input" id="amount5" value="৫০০">
+                                <label class="form-check-label" for="amount5">৫০০</label>
+
+                                <input type="checkbox" class="form-check-input" id="amount6" value="১০০">
+                                <label class="form-check-label" for="amount6">১০০</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="donate_amount"
+                                    placeholder="দানের পরিমাণ *" id="donateAmount">
+                                <span class="text-danger">
+                                    {{ $errors->has('donate_amount') ? $errors->first('donate_amount') : '' }}
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="refarence" placeholder="রেফারেন্স *">
+                                <span class="text-danger">
+                                    {{ $errors->has('refarence') ? $errors->first('refarence') : '' }}
                                 </span>
                             </div>
                             <div class="form-group">
@@ -434,7 +576,7 @@ text-align: center;">
         }
     </style>
     {{-- Notice Section --}}
-    <section class="notice-section">
+    <section class="notice-section" id="documents">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -454,21 +596,21 @@ text-align: center;">
             </div>
             <div class="row">
                 <div class="col-md-4 mb-3">
-                    <a href="#">
+                    <a href="{{ route('getDepartments') }}">
                         <div class="notice-box n-box1">
                             <h3>বিভাগসমূহ</h3>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <a href="{{ route('FrontendNoticeByLang') }}">
+                    <a href="{{ url('/notices') }}">
                         <div class="notice-box n-box2">
                             <h3>নোটিশ বোর্ড</h3>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <a href="{{ route('FrontendGalleryByLang') }}">
+                    <a href="{{ url('/gallerys') }}">
                         <div class="notice-box n-box3">
                             <h3>গ্যালারী</h3>
                         </div>
@@ -512,27 +654,27 @@ text-align: center;">
                                             allowfullscreen></iframe>
                                     @endif
                                 @elseif($Topic->video_type == 2)
-                                        <?php
-                                        $Vimeo_id = Helper::Get_vimeo_video_id($HomeVides->video_file);
-                                        ?>
-                                        @if ($Vimeo_id != '')
-                                            {{-- Vimeo Video --}}
-                                            <iframe allowfullscreen
-                                                src="https://player.vimeo.com/video/{{ $Vimeo_id }}?title=0&amp;byline=0">
-                                            </iframe>
-                                        @endif
-                                    @elseif($HomeVides->video_type == 3)
-                                        @if ($HomeVides->video_file != '')
-                                            {{-- Embed Video --}}
-                                            {!! $HomeVides->video_file !!}
-                                        @endif
-                                    @else
-                                        <video width="100%" height="450" controls>
-                                            <source src="{{ URL::to('uploads/topics/' . $HomeVides->video_file) }}"
-                                                type="video/mp4">
-                                            Your browser does not support the video tag.
-                                        </video>
+                                    <?php
+                                    $Vimeo_id = Helper::Get_vimeo_video_id($HomeVides->video_file);
+                                    ?>
+                                    @if ($Vimeo_id != '')
+                                        {{-- Vimeo Video --}}
+                                        <iframe allowfullscreen
+                                            src="https://player.vimeo.com/video/{{ $Vimeo_id }}?title=0&amp;byline=0">
+                                        </iframe>
                                     @endif
+                                @elseif($HomeVides->video_type == 3)
+                                    @if ($HomeVides->video_file != '')
+                                        {{-- Embed Video --}}
+                                        {!! $HomeVides->video_file !!}
+                                    @endif
+                                @else
+                                    <video width="100%" height="450" controls>
+                                        <source src="{{ URL::to('uploads/topics/' . $HomeVides->video_file) }}"
+                                            type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                @endif
                             </div>
                         </div>
                     @endforeach
@@ -911,11 +1053,11 @@ text-align: center;">
 
                                         if ($ii == 6) {
                                             echo "
-                                                                                                                                                                                                                                                                                                                                            </ul>
-                                                                                                                                                                                                                                                                                                                        </div><!-- /Slide -->
-                                                                                                                                                                                                                                                                                                                        <div class='item'>
-                                                                                                                                                                                                                                                                                                                            <ul class='thumbnails'>
-                                                                                                                                                                                                                                                                                                                                            ";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </ul>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div><!-- /Slide -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class='item'>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <ul class='thumbnails'>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ";
                                             $ii = 0;
                                         }
                                         ?>
@@ -981,5 +1123,31 @@ text-align: center;">
                 }
             }
         })
+    </script>
+    <script>
+        $('#amount1').on('click', function() {
+            var amount1 = $(this).val();
+            $('#donateAmount').val(amount1);
+        });
+        $('#amount2').on('click', function() {
+            var amount2 = $(this).val();
+            $('#donateAmount').val(amount2);
+        });
+        $('#amount3').on('click', function() {
+            var amount3 = $(this).val();
+            $('#donateAmount').val(amount3);
+        });
+        $('#amount4').on('click', function() {
+            var amount4 = $(this).val();
+            $('#donateAmount').val(amount4);
+        });
+        $('#amount5').on('click', function() {
+            var amount5 = $(this).val();
+            $('#donateAmount').val(amount5);
+        });
+        $('#amount6').on('click', function() {
+            var amount6 = $(this).val();
+            $('#donateAmount').val(amount6);
+        });
     </script>
 @endpush

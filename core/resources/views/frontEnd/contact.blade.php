@@ -185,7 +185,7 @@
             <div class="row">
 
                 <div class="col-lg-6">
-                    <h4 id="contact_div"><i class="fa fa-envelope"></i> {{ __('frontend.getInTouch') }}</h4>
+                    <h4 id="contact_div"><i class="fa fa-envelope"></i> {{ __('নীচের ফর্ম টি পূরণ করে আমাদের সাথে যোগাযোগ করুন') }}</h4>
 
                     <div id="sendmessage"><i class="fa fa-check-circle"></i>
                         &nbsp;{{ __('frontend.youMessageSent') }}</div>

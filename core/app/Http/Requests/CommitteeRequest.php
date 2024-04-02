@@ -29,6 +29,7 @@ class CommitteeRequest extends FormRequest
             'title'=> 'required|string|max:30',
             'phone'=> 'required|min:11|max:11',
             'address'=> 'required|string',
+            'serial'=> 'nullable|string',
         ];
     }
 }

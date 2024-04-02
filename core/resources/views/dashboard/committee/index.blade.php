@@ -56,6 +56,7 @@
                         <th style="max-width:150px;">{{ __('Name') }}</th>
                         <th style="max-width:150px;">{{ __('Phone') }}</th>
                         <th style="max-width:150px;">{{ __('Address') }}</th>
+                        <th style="max-width:150px;">{{ __('Serial') }}</th>
                         <th style="max-width:150px;">{{ __('status') }}</th>
                         <th style="max-width:150px;">{{ __('Action') }}</th>
                     </thead>
@@ -67,6 +68,7 @@
                                 <td>{{ $committee->name }}</td>
                                 <td>{{ $committee->phone }}</td>
                                 <td>{{ $committee->address }}</td>
+                                <td>{{ $committee->serial }}</td>
                                 <td data-toggle="modal"
                                 data-target="#editstatus__{{ $committee->id }}" style="cursor: pointer;">
                                     @if ($committee->is_active == 1)
@@ -147,36 +149,6 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="addCommitteeType" tabindex="-1" data-backdrop="static" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create Committee Type</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="fa fa-close"></i>
-                    </button>
-                </div>
-                <form action="{{ route('committeeType.store') }}" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="">Name</label>
-                            <input type="text" name="name" placeholder="Enter name" class="form-control">
-                            @error('name')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

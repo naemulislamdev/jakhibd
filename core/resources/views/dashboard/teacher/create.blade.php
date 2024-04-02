@@ -21,7 +21,7 @@
             <div class="box-tool">
                 <ul class="nav">
                     <li class="nav-item inline">
-                        <a class="btn btn-fw primary" href="{{ route('teacher.index') }}">
+                        <a class="btn btn-fw primary" href="#">
                             <i class="fa fa-chevron-left"></i>
                             Back
                         </a>
@@ -35,7 +35,7 @@
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
                                 <label>আসাতিযায়ে কেরামের নাম <span class="text-danger">*</span></label>
-                                <input type="text" name="name" class="form-control" placeholder="Enter student name"
+                                <input type="text" name="name" class="form-control" placeholder="Enter teacher name"
                                     value="{{ old('name') }}">
                                 @error('name')
                                     <span class="text-danger">{{ $message }}</span>

@@ -235,6 +235,35 @@ $mnu_title_var2 = 'title_' . env('DEFAULT_LANGUAGE');
                         </a>
                     </li>
                     <li>
+                        <a>
+                            <span class="nav-caret">
+                                <i class="fa fa-caret-down"></i>
+                            </span>
+                            <span class="nav-icon">
+                                <i class="material-icons">&#xe433;</i>
+                            </span>
+                            <span class="nav-text">{{ __('Badri Register') }}</span>
+                        </a>
+                        <ul class="nav-sub">
+                            @php
+                                $bodoriRegisters = App\Models\Topic::where('webmaster_id',12)->where('status',1)->get();
+                            @endphp
+
+                            <li>
+                                <a href="{{ route('badri.create')}}">
+                                    <span class="nav-text">{{ __('Badri Register create') }}</span>
+                                </a>
+                            </li>
+                            @foreach($bodoriRegisters as $bodoriRegister)
+                            <li>
+                                <a href="{{ route('badriRegister.index',$bodoriRegister->id)}}">
+                                    <span class="nav-text">{{ $bodoriRegister->title_bd}}</span>
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <li>
                         <a href="{{ route('department.index') }}">
                             <span class="nav-icon">
                                 <i class="material-icons">&#xe433;</i>
@@ -308,6 +337,16 @@ $mnu_title_var2 = 'title_' . env('DEFAULT_LANGUAGE');
                                     <span class="nav-text">{{ __('Student create') }}</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('student.promote')}}">
+                                    <span class="nav-text">{{ __('Student promote') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('get.student.log')}}">
+                                    <span class="nav-text">{{ __('Previous student info') }}</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li>
@@ -329,6 +368,11 @@ $mnu_title_var2 = 'title_' . env('DEFAULT_LANGUAGE');
                             <li>
                                 <a href="{{ route('student.result.create')}}">
                                     <span class="nav-text">{{ __('Result create') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('student.result.search.page')}}">
+                                    <span class="nav-text">{{ __('Search Result') }}</span>
                                 </a>
                             </li>
                         </ul>

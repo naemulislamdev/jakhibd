@@ -21,7 +21,7 @@ class SubjectRepository extends Repository
     {
        self::create([
             'name' => $request->name,
-            'code' => $request->code,
+            'description' => $request->description,
             'department_id' => $request->department_id,
             'serial' => $request->serial,
             'is_active' => true
@@ -32,7 +32,7 @@ class SubjectRepository extends Repository
         $department = self::query()->where('id', $id)->first();
         $department->update([
             'name' => $request->name,
-            'code' => $request->code,
+            'description' => $request->description,
             'department_id' => $request->department_id,
             'serial' => $request->serial,
             'is_active' => $request->status

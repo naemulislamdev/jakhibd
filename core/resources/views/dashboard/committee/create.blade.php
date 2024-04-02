@@ -55,6 +55,15 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-group">
+                                <label>Serial no <span class="text-danger">*</span></label>
+                                <input type="number" name="serial" id="" class="form-control" placeholder="Enter serial no">
+                                @error('serial')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="col-md-12 mb-3">
                             <div class="form-group">
                                 <label>Address <span class="text-danger">*</span></label>

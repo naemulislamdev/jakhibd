@@ -22,7 +22,15 @@
             text-align: center;
         }
 
-        .heading-title {}
+        .table>thead>tr>th,
+        .table>tbody>tr>th,
+        .table>tfoot>tr>th,
+        .table>thead>tr>td,
+        .table>tbody>tr>td,
+        .table>tfoot>tr>td {
+            color: #000;
+            font-weight: 500;
+        }
     </style>
     <section id="inner-headline">
         <div class="container">
@@ -43,7 +51,7 @@
                             ?>
                             <li class="active">{!! $WebmasterSectionTitle !!}</li>
                         @else
-                            <li class="active">{{ __('Student') }}</li>
+                            <li class="active">{{ __('ছাত্রদের তথ্য') }}</li>
                         @endif
                         @if (!empty($CurrentCategory))
                             <?php
@@ -80,7 +88,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>ক্রমিক</th>
@@ -94,12 +102,12 @@
                         <tbody>
                             @foreach ($students as $student)
                                 <tr>
-                                    <th>{{ $loop->iteration }}</th>
+                                    <th style="text-align: center">{{ $loop->iteration }}</th>
                                     <td>{{ $student->name }}</td>
-                                    <td>{{ $student->department->name }}</td>
-                                    <td>{{ $student->roll }}</td>
+                                    <td style="text-align: center">{{ $student->department->name }}</td>
+                                    <td style="text-align: center">{{ $student->roll }}</td>
                                     <td>{{ $student->address }}</td>
-                                    <td>{{ $student->phone }}</td>
+                                    <td style="text-align: center">{{ $student->phone }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

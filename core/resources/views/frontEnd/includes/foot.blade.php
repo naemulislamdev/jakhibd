@@ -26,6 +26,21 @@
 <script src="{{asset('assets/frontend/js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('assets/frontend/js/waypoints.min.js')}}"></script>
 <script src="{{asset('assets/frontend/js/jquery.counterup.min.js')}}"></script>
+{{-- start Bangla Calander js link --}}
+<script src="{{asset('assets/frontend/js/jquery.bongabdo.js')}}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+    $('#bongabdo').bongabdo({
+    showWeekDays: true,
+    format: "DD MM, YY (WW)"
+});
+    });
+</script>
+{{-- end Bangla Calander js link --}}
+<script src="{{asset('assets/frontend/js/jquery.hijri.date.js')}}"></script>
+    <script>
+        $('.hijriDate').hijriDate();
+    </script>
 <script>
     jQuery(document).ready(function( $ ) {
         $('.counter').counterUp({

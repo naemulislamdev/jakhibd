@@ -21,6 +21,15 @@
         table>thead>tr>th {
             text-align: center;
         }
+        .table>thead>tr>th,
+        .table>tbody>tr>th,
+        .table>tfoot>tr>th,
+        .table>thead>tr>td,
+        .table>tbody>tr>td,
+        .table>tfoot>tr>td {
+            color: #000;
+            font-weight: 500;
+        }
     </style>
     <section id="inner-headline">
         <div class="container">
@@ -39,9 +48,9 @@
                                 $WebmasterSectionTitle = @$WebmasterSection->$title_var2;
                             }
                             ?>
-                            <li class="active">{!! $WebmasterSectionTitle !!}</li>
+                            <li class="active">শিক্ষকদের তথ্য</li>
                         @else
-                            <li class="active">{{ $title }}</li>
+                            <li class="active">শিক্ষক তথ্য</li>
                         @endif
                         @if (!empty($CurrentCategory))
                             <?php
@@ -53,7 +62,7 @@
                                 $CurrentCategoryTitle = @$CurrentCategory->$title_var2;
                             }
                             ?>
-                            <li class="active"><i class="icon-angle-right"></i>{{ $CurrentCategoryTitle }}</li>
+                            <li class="active"><i class="icon-angle-right"></i>শিক্ষক তথ্য</li>
                         @endif
                     </ul>
                 </div>
@@ -71,7 +80,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>ক্রমিক</th>
@@ -85,12 +94,12 @@
                         <tbody>
                             @foreach ($teachers as $teacher)
                                 <tr>
-                                    <th>{{ $loop->iteration }}</th>
+                                    <th style="text-align: center">{{ $loop->iteration }}</th>
                                     <td>{{ $teacher->name }}</td>
                                     <td>{{ $teacher->title }}</td>
-                                    <td>{{ $teacher->appointment_date }}</td>
+                                    <td style="text-align: center">{{ $teacher->appointment_date }}</td>
                                     <td>{{ $teacher->address }}</td>
-                                    <td>{{ $teacher->phone }}</td>
+                                    <td style="text-align: center">{{ $teacher->phone }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

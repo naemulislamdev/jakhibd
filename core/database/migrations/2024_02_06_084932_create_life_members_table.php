@@ -21,6 +21,9 @@ class CreateLifeMembersTable extends Migration
             $table->string('years');
             $table->string('phone');
             $table->string('address');
+            $table->string('donate_type')->nullable();
+            $table->string('donate_amount')->nullable();
+            $table->string('refarence')->nullable();
             $table->timestamps();
         });
     }

@@ -26,7 +26,7 @@
                     <thead class="dker">
                         <th style="max-width:50px;">{{ __('SL') }}</th>
                         <th style="max-width:250px;">{{ __('Subject Name') }}</th>
-                        <th style="max-width:250px;">{{ __('Subject Code') }}</th>
+                        <th style="max-width:250px;">{{ __('Subject description') }}</th>
                         <th style="max-width:250px;">{{ __('Department') }}</th>
                         <th style="max-width:250px;">{{ __('Serial') }}</th>
                         <th style="max-width:150px;">{{ __('status') }}</th>
@@ -37,7 +37,7 @@
                             <tr role="row">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $subject->name }}</td>
-                                <td>{{ $subject->code }}</td>
+                                <td>{{ $subject->description }}</td>
                                 <td>{{ $subject->department->name }}</td>
                                 <td>{{ $subject->serial }}</td>
                                 <td>
@@ -105,9 +105,9 @@
                                                         @enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="">Subject Code</label>
-                                                    <input type="text" name="code" placeholder="Enter subject code" class="form-control" value="{{$subject->code}}">
-                                                    @error('code')
+                                                    <label for="">Subject description</label>
+                                                    <textarea name="description" placeholder="Enter subject description" class="form-control">{{$subject->description}}</textarea>
+                                                    @error('description')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
@@ -178,9 +178,9 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="">Subject Code</label>
-                            <input type="text" name="code" placeholder="Enter subject code" class="form-control">
-                            @error('code')
+                            <label for="">Subject Description</label>
+                            <textarea name="description" placeholder="Enter subject description" class="form-control"></textarea>
+                            @error('description')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>

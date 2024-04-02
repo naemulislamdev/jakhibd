@@ -98,17 +98,22 @@ Route::get('/search', [HomeController::class, 'searchTopics'])->name('searchTopi
 
 //custome method
 // Route::get('/teachers', [HomeController::class, 'teacher'])->name('teacher.index');
+Route::get('/result/search', [HomeController::class, 'resultSearch'])->name('result.page');
+Route::post('/result_publish', [HomeController::class, 'resultPublish'])->name('result.publish');
+// Route::get('/get/subjects/{id}', [HomeController::class, 'getSubjectOnAjax']);
+Route::get('/badri/register/{id}', [HomeController::class, 'getBodoriRegister'])->name('getBodori.register');
+Route::get('/department/student/{id}', [HomeController::class, 'departmentStudent'])->name('departmentStudent.index');
+Route::get('/departments', [HomeController::class, 'getDepartments'])->name('getDepartments');
 Route::get('/department/student/{id}', [HomeController::class, 'departmentStudent'])->name('departmentStudent.index');
 Route::get('/committee-list/{id}', [HomeController::class, 'committeeList'])->name('committeeList');
 // Route::get('/amader-smprke/topic/25', [HomeController::class, 'comittee'])->name('comittee.index');
 Route::get('/amader-smprke/topic/27', [HomeController::class, 'teacher'])->name('teacher.index');
+// Route::get('/notis-rwod', [HomeController::class, 'noticeByLang'])->name('FrontendNoticeByLang');
+// Route::get('/{lang?}/gallery', [HomeController::class, 'galleryByLang'])->name('FrontendGalleryByLang');
 Route::get('/{lang?}/{section}/topic/{id}', [HomeController::class, 'topicByLang'])->name('FrontendTopicByLang');
 
-Route::get('/sitepages/topic/26', [HomeController::class, 'allDepartments'])->name('frontend.department');
+// Route::get('/sitepages/topic/26', [HomeController::class, 'allDepartments'])->name('frontend.department');
 Route::get('/{section}/topic/{id}', [HomeController::class, 'topic'])->name('FrontendTopic');
-
-Route::get('/{lang?}/notice', [HomeController::class, 'noticeByLang'])->name('FrontendNoticeByLang');
-Route::get('/{lang?}/gallery', [HomeController::class, 'galleryByLang'])->name('FrontendGalleryByLang');
 
 // ..Sub category url for Section  ( ex: www.site.com/products/2 )
 Route::get('/{section}/{cat}', [HomeController::class, 'topics'])->name('FrontendTopicsByCat');

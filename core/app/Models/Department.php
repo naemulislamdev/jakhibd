@@ -12,4 +12,7 @@ class Department extends Model
     public function subDepartment(){
         return $this->hasMany(SubDepartment::class,'department_id');
     }
+    public function result(){
+        return $this->hasMany(Result::class, 'department_id');
+    }
 }

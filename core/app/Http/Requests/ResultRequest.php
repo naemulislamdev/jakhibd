@@ -13,7 +13,7 @@ class ResultRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,22 @@ class ResultRequest extends FormRequest
      */
     public function rules()
     {
+        $department = 'required';
+        $subject = 'required';
+        $examType = 'required|string';
+        $examYear = 'required|string';
+        if (request()->isMethod('put')) {
+            $department = 'nullable';
+            $subject = 'nullable';
+            $examType = 'nullable|string';
+            $examYear = 'nullable|string';
+        }
         return [
-            //
+            'department_id' => $department,
+            'subject_id' => $subject,
+            'exam_type' => $examType,
+            'exam_year' => $examYear,
+            'mark.*' => 'required'
         ];
     }
 }

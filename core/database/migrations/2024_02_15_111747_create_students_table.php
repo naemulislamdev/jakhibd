@@ -24,6 +24,7 @@ class CreateStudentsTable extends Migration
             $table->date('date_of_birth')->nullable();
             $table->string('student_nid')->nullable();
             $table->string('birth_reg_no')->nullable();
+            $table->string('admision_date')->nullable();
             $table->string('blood')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
@@ -39,6 +40,7 @@ class CreateStudentsTable extends Migration
             $table->string('image')->nullable();
             $table->longText('address')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->string('session_year')->nullable();
             $table->timestamps();
         });
     }

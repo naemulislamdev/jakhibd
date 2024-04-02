@@ -258,7 +258,15 @@ Route::get('/menus/destroy/{id}', [MenusController::class, 'destroy'])->name('me
 Route::post('/menus/updateAll', [MenusController::class, 'updateAll'])->name('menusUpdateAll');
 // life member route
 Route::get('/life-member/index', [LifeMemberController::class, 'lifeMemberIndex'])->name('lifeMember.index');
+Route::get('/life-member/show/{id}', [LifeMemberController::class, 'lifeMemberShow'])->name('lifeMember.show');
 Route::get('/life-member/destory/{id}', [LifeMemberController::class, 'lifeMemberDestroy'])->name('lifeMember.destroy');
+Route::get('/badri-register/create', [LifeMemberController::class, 'badriCreate'])->name('badri.create');
+Route::post('/badri-register/store', [LifeMemberController::class, 'badriStore'])->name('badri.store');
+Route::get('/badri-register/index/{id}', [LifeMemberController::class, 'badriRegisterIndex'])->name('badriRegister.index');
+Route::get('/badri-register/edit/{id}', [LifeMemberController::class, 'badriRegisterEdit'])->name('badriRegister.edit');
+Route::put('/badri-register/update/{id}', [LifeMemberController::class, 'badriRegisterUpdate'])->name('badriRegister.update');
+Route::get('/badri-register/destroy/{id}', [LifeMemberController::class, 'badriRegisterDestroy'])->name('badriRegister.destroy');
+Route::put('/badri-register/status/{id}', [LifeMemberController::class, 'badriRegisterStatus'])->name('badriRegister.status');
 // Committee type route
 Route::get('/committee-type/index', [CommitteeTypeController::class,'index'])->name('committeeType.index');
 Route::post('/committee-type/store', [CommitteeTypeController::class,'store'])->name('committeeType.store');
@@ -272,7 +280,7 @@ Route::get('/committee/edit/{id}', [CommitteeController::class,'edit'])->name('c
 Route::put('/committee/update/{id}', [CommitteeController::class,'update'])->name('committee.update');
 Route::get('/committee/destroy/{id}', [CommitteeController::class,'destroy'])->name('committee.destroy');
 Route::put('/committee/status/{id}',[CommitteeController::class,'status'])->name('committee.status');
-Route::get('/committee/generate-pdf/{id}', [CommitteeController::class, 'generatePDF'])->name('committee.pdf');
+Route::get('/committee/generate-pdf/{id}', [CommitteeController::class, 'generateMPDF'])->name('committee.pdf');
 // Department route
 Route::get('/department/index', [DepartmentController::class,'index'])->name('department.index');
 Route::post('/department/store', [DepartmentController::class,'store'])->name('department.store');
@@ -301,15 +309,24 @@ Route::get('/student/edit/{id}',[StudentController::class,'edit'])->name('studen
 Route::put('/student/update/{id}',[StudentController::class,'update'])->name('student.update');
 Route::get('/student/destroy/{id}',[StudentController::class,'destroy'])->name('student.destroy');
 Route::put('/student/status/{id}',[StudentController::class,'status'])->name('student.status');
+//Student promote route
+Route::get('/student/promote',[StudentController::class,'studentPromote'])->name('student.promote');
+Route::post('/student/promote/store',[StudentController::class,'studentPromoteStore'])->name('student.pormote.store');
+//Student Log route
+Route::get('/student/log/index',[StudentController::class,'getStudentLog'])->name('get.student.log');
+Route::get('/student/log/show/{id}',[StudentController::class,'studentLogShow'])->name('student.log.show');
+
 // Result management route
 Route::get('/student/result/index',[ResultController::class,'index'])->name('student.result.index');
 Route::get('/student/result/create',[ResultController::class,'create'])->name('student.result.create');
 Route::post('/student/result/store',[ResultController::class,'store'])->name('student.result.store');
 Route::get('/student/result/show/{id}',[ResultController::class,'show'])->name('student.result.show');
-Route::get('/student/result/edit/{id}',[ResultController::class,'edit'])->name('student.result.edit');
-Route::put('/student/result/update/{id}',[ResultController::class,'update'])->name('student.result.update');
-Route::get('/student/result/destroy/{id}',[ResultController::class,'destroy'])->name('student.result.destroy');
-Route::put('/student/result/status/{id}',[ResultController::class,'status'])->name('student.result.status');
+Route::get('/student/result/edit/{department}/{subject}/{exam}',[ResultController::class,'edit'])->name('student.result.edit');
+Route::put('/student/result/update/',[ResultController::class,'update'])->name('student.result.update');
+Route::get('/student/result/destroy/{department}/{subject}/{exam}',[ResultController::class,'destroy'])->name('student.result.destroy');
+Route::get('/student/result/search/page',[ResultController::class,'studentResultSearchPage'])->name('student.result.search.page');
+Route::post('/student/result/search',[ResultController::class,'studentResultSearch'])->name('student.result.search');
+// Route::put('/student/result/status/{id}',[ResultController::class,'status'])->name('student.result.status');
 //get sub department form ajax
 Route::get('/get/students/{id}',[ResultController::class,'getStudents']);
 Route::get('/get/subjects/{id}',[ResultController::class,'getSubjects']);

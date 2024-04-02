@@ -67,7 +67,8 @@ return [
     |
     */
 
-    'timezone' => env('TIMEZONE', "UTC"),
+    // 'timezone' => env('TIMEZONE', "UTC"),
+    'timezone' => env('TIMEZONE', "Asia/Dhaka"),
 
     /*
     |--------------------------------------------------------------------------
@@ -166,6 +167,8 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         \Torann\GeoIP\GeoIPServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Rakibhstu\Banglanumber\NumberToBanglaServiceProvider::class,
+        Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -238,7 +241,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
-        // 'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
     ],
 
 ];

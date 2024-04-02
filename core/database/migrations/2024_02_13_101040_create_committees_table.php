@@ -20,7 +20,8 @@ class CreateCommitteesTable extends Migration
             $table->string('name');
             $table->string('title');
             $table->string('phone');
-            $table->longText('address');
+            $table->longText('address')->nullable();
+            $table->string('serial')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

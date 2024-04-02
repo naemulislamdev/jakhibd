@@ -18,6 +18,15 @@
             font-size: 15px;
         }
         table > thead > tr > th{text-align: center;}
+        .table>thead>tr>th,
+        .table>tbody>tr>th,
+        .table>tfoot>tr>th,
+        .table>thead>tr>td,
+        .table>tbody>tr>td,
+        .table>tfoot>tr>td {
+            color: #000;
+            font-weight: 500;
+        }
     </style>
     <section id="inner-headline">
         <div class="container">
@@ -38,7 +47,7 @@
                             ?>
                             <li class="active">{!! $WebmasterSectionTitle !!}</li>
                         @else
-                            <li class="active">{{ __('Board of Directors') }}</li>
+                            <li class="active">{{ __('পরিচালনা পর্ষদ') }}</li>
                         @endif
                         @if (!empty($CurrentCategory))
                             <?php
@@ -81,11 +90,11 @@
                         <tbody>
                             @foreach($committees as $committee)
                           <tr>
-                            <th>{{$loop->iteration}}</th>
-                            <td>{{$committee->title}}</td>
+                            <th style="text-align: center;">{{$loop->iteration}}</th>
+                            <td style="text-align: center;">{{$committee->title}}</td>
                             <td>{{$committee->name}}</td>
                             <td>{{$committee->address}}</td>
-                            <td>{{$committee->phone}}</td>
+                            <td style="text-align: center;">{{$committee->phone}}</td>
                           </tr>
                           @endforeach
                         </tbody>
