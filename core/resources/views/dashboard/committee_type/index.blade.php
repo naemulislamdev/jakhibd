@@ -57,7 +57,6 @@
                                             <i class="material-icons"></i>
                                         </button>
                                 </td>
-
                             </tr>
                             <!-- delete Modal -->
                             <div class="modal fade" id="deleteMember__{{ $committeeType->id }}" tabindex="-1"

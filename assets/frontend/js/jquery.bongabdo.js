@@ -38,26 +38,29 @@
 		}
 
 		function getBanglaDateAndMonth(givenDate) {
-			givenDate = givenDate.addHours(-6);
+			// Remove unnecessary time zone adjustment
+			// givenDate = givenDate.addHours(-6);
 		
-			//Year, Date, Month for Gregorian/English Calendar
+			// Year, Date, Month for Gregorian/English Calendar
 			var gregDate = givenDate.getDate(),
 				gregMonth = givenDate.getMonth(),
 				gregYear = givenDate.getFullYear(),
 				gregDay = givenDate.getDay();
 		
+			// Adjust for leap years (Falgun should have 31 days in leap years)
 			if (isLeapYear(gregYear)) {
-				totalMonthDays[10] = 31; //If the given Gregorian Year is a LeapYear then, the Falgun month enclosed in the gregorian year will be 31 days
+				totalMonthDays[10] = 31;
 			}
 		
-			// If the given date is smaller than 14th April of current Gregorian Year
+			// If today's date is before April 14, adjust the Bengali year
 			if (gregMonth < 3 || (gregMonth === 3 && gregDate < 14)) {
-				// 3 is the index of 'April'
 				gregYear = gregYear - 1;
 			}
 		
-			var epoch = new Date(gregYear + '-04-13');
-			var banglaYear = gregYear - 593;
+			// Ensure the correct epoch date (April 14, Gregorian Year)
+			var epoch = new Date(gregYear, 3, 14); // Month is 3 because JavaScript uses 0-based index
+		
+			var banglaYear = gregYear - 593; // Convert to Bengali year
 		
 			var dayRemaining = dateDiffInDays(epoch, givenDate);
 		
@@ -68,13 +71,11 @@
 					banglaMonthIndex = i;
 					break;
 				}
-		
 				dayRemaining -= totalMonthDays[i];
 			}
 		
 			var banglaDate = dayRemaining;
-		
-			var banglaSeason = banglaSeasons[Math.floor(banglaMonthIndex / 2)]; // ('পৌষ' + 'মাঘ') = 'শীত'. Every consecutive two index in 'banglaMonths' indicates a single index in 'banglaSeasons'.
+			var banglaSeason = banglaSeasons[Math.floor(banglaMonthIndex / 2)];
 		
 			return {
 				year: banglaYear,
@@ -84,6 +85,7 @@
 				season: banglaSeason
 			};
 		}
+		
 
 		String.prototype.convertDigitToBangla = function() {
 			var convertToBanglaDigit = {

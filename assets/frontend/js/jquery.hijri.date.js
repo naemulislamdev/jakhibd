@@ -1,9 +1,4 @@
-/*
-* Name: jquery-hijri-date
-* Author: Muhammad Mabrouk
-* NPM: https://www.npmjs.com/package/jquery-hijri-date
-* GitHub: https://github.com/MuhammadMabrouk/jquery-hijri-date
-*/
+
 $.fn.hijriDate = function (options = {}) {
   const defaultOptions = {
     showWeekDay: typeof options.showWeekDay === 'undefined' ? true : options.showWeekDay,
@@ -12,7 +7,9 @@ $.fn.hijriDate = function (options = {}) {
     weekDayLang: (options.weekDayLang && typeof options.weekDayLang === 'string') ? options.weekDayLang : 'ar',
     hijriLang: (options.hijriLang && typeof options.hijriLang === 'string') ? options.hijriLang : 'ar',
     gregLang: (options.gregLang && typeof options.gregLang === 'string') ? options.gregLang : 'ar',
-    correction: (options.correction && typeof options.correction === 'number') ? options.correction : 0,
+    //correction: (options.correction && typeof options.correction === 'number') ? options.correction : 0,
+    correction: (options.correction && typeof options.correction === 'number') ? options.correction - 1 : -1,
+
   };
   const $hostEl = this;
   const today = new Date();
