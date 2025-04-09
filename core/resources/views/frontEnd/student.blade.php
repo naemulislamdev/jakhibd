@@ -93,10 +93,12 @@
                             <tr>
                                 <th>ক্রমিক</th>
                                 <th>নাম</th>
-                                <th>শ্রেণি</th>
-                                <th>রোল নং</th>
                                 <th>ঠিকানা</th>
+                                <th>শ্রেণি</th>
+                                <th>ছাত্রের ধরন</th>
+                                <th>ভর্তির টাকা</th>
                                 <th>মোবাইল নম্বর</th>
+                                <th>জাতীয় পরিচয়/জন্মনিবন্ধন</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -104,10 +106,18 @@
                                 <tr>
                                     <th style="text-align: center">{{ $loop->iteration }}</th>
                                     <td>{{ $student->name }}</td>
-                                    <td style="text-align: center">{{ $student->department->name }}</td>
-                                    <td style="text-align: center">{{ $student->roll }}</td>
                                     <td>{{ $student->address }}</td>
+                                    <td style="text-align: center">{{ $student->department->name }}</td>
+                                    <td style="text-align: center">{{ $student->student_type }}</td>
+                                    <td style="text-align: center">{{ $student->deposit }} টাকা</td>
                                     <td style="text-align: center">{{ $student->phone }}</td>
+                                    <td style="text-align: center">
+                                        @if ($student->nid_type == 'nid')
+                                            এনআইডি: {{ $student->nid_number }}
+                                        @else
+                                            জন্মনিবন্ধন: {{ $student->nid_number }}
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

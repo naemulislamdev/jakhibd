@@ -43,32 +43,34 @@ b {
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <b class="col-sm-3">নাম</b>
+                    <b class="col-sm-3">বিভাগ</b>
+                    <b class="col-sm-8">{{ $student->department->name }}</b>
+                    <b class="col-sm-3">সিট নং</b>
+                    <b class="col-sm-8">{{ $student->reg ?? 'N/A' }}</b>
+                    <b class="col-sm-3">ছাত্রের নাম</b>
                     <b class="col-sm-8">{{ $student->name }}</b>
                     <b class="col-sm-3">রোল নং</b>
                     <b class="col-sm-8">{{ $student->roll ?? 'N/A' }}</b>
-                    <b class="col-sm-3">সিট নং</b>
-                    <b class="col-sm-8">{{ $student->reg ?? 'N/A' }}</b>
-                    <b class="col-sm-3">বিভাগ</b>
-                    <b class="col-sm-8">{{ $student->department->name }}</b>
                     <b class="col-sm-3">মোবাইল</b>
                     <b class="col-sm-8">{{ $student->phone ?? 'N/A' }}</b>
-                    <b class="col-sm-3">ছাত্র এনআইডি নং</b>
-                    <b class="col-sm-8">{{ $student->student_nid ?? 'N/A' }}</b>
-                    <b class="col-sm-3">জন্ম নিবন্ধন নং</b>
-                    <b class="col-sm-8">{{ $student->birth_reg_no ?? 'N/A' }}</b>
+                    <b class="col-sm-3">ভর্তির টাকা</b>
+                    <b class="col-sm-8">{{ $student->deposit ?? '0' }} টাকা</b>
+                    <b class="col-sm-3">জাতীয় পরিচয় ধরন</b>
+                    <b class="col-sm-8">{{ $student->nid_type == 'nid'? এনআইডি : 'জন্মনিবন্ধন' }}</b>
+                    <b class="col-sm-3">জাতীয় পরিচয়/জন্মনিবন্ধন</b>
+                    <b class="col-sm-8">{{ $student->nid_number ?? 'N/A' }}</b>
                     <b class="col-sm-3">জন্ম তারিখ</b>
                     <b class="col-sm-8">{{ $student->date_of_birth }}</b>
+                    <b class="col-sm-3">ছাত্রের ধরন</b>
+                    <b class="col-sm-8">{{ $student->student_type }}</b>
                     <b class="col-sm-3">ভর্তির তারিখ</b>
                     <b class="col-sm-8">{{ $student->admision_date ?? 'N/A' }}</b>
-                    <b class="col-sm-3">ধর্ম </b>
-                    <b class="col-sm-8">Islam</b>
                     <b class="col-sm-3">জেন্ডার</b>
                     <b class="col-sm-8">
                         @if ($student->gender == 'male')
-                            Male
+                        মেইল
                         @elseif($student->gender == 'female')
-                            Female
+                        ফিমেইল
                         @else
                             Others
                         @endif

@@ -23,21 +23,16 @@ class StudentRequest extends FormRequest
      */
     public function rules()
     {
-        $studentNid = 'required';
-        if(request()->student_nid !=null){
-            $studentNid = 'nullable';
-        }
-        elseif(request()->birth_reg_no !=null){
-            $studentNid = 'nullable';
-        }
         return [
             'name' => 'required|string|max:150',
             'email' => 'nullable|email',
-            'roll' => 'required',
+            'roll' => 'nullable',
             'reg' => 'required',
-            'student_nid' => $studentNid,
-            'birth_reg_no' => $studentNid,
+            'nid_type' => 'required',
+            'nid_number' => 'required',
             'date_of_birth' => 'required',
+            'deposit' => 'required',
+            'student_type' => 'required',
             'admision_date' => 'required',
             'department_id' => 'required',
             // 'sub_department_id' => 'required',

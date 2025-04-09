@@ -53,12 +53,30 @@
                                 </select>
                             </div>
                         </div> --}}
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label>সিট নং <span class="text-danger">*</span></label>
+                                <input type="text" name="reg" class="form-control" placeholder="Enter student seat no" value="{{ $student->reg }}">
+                                @error('reg')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="col-md-6 mb-3">
                             <div class="form-group">
-                                <label>নাম <span class="text-danger">*</span></label>
+                                <label>ছাত্রের নাম <span class="text-danger">*</span></label>
                                 <input type="text" name="name" class="form-control" placeholder="Enter student name"
                                     value="{{ $student->name }}">
                                 @error('name')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label>ঠিকানা <span class="text-danger">*</span></label>
+                                <textarea name="address" class="form-control" placeholder="Enter student address">{{ $student->address }}</textarea>
+                                @error('address')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -73,32 +91,11 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-3 mb-3">
                             <div class="form-group">
-                                <label>সিট নং <span class="text-danger">*</span></label>
-                                <input type="text" name="reg" class="form-control" placeholder="Enter student seat no" value="{{ $student->reg }}">
-                                @error('reg')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="form-group">
-                                <label>ছাত্র এনআইডি <span class="text-danger">*</span></label>
-                                <input type="number" name="student_nid" class="form-control" placeholder="Enter student nid" value="{{ $student->student_nid}}">
-                                @error('student_nid')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="form-group">
-                                <label>জন্ম নিবন্ধন নং <span class="text-danger">*</span></label>
-                                <input type="number" name="birth_reg_no" class="form-control"
-                                    placeholder="Enter birth registration no" value="{{ $student->birth_reg_no }}">
-                                @error('birth_reg_no')
+                                <label> ভর্তির টাকা <span class="text-danger">*</span></label>
+                                <input type="number" name="deposit" class="form-control" placeholder="Enter deposite amount" value="{{ $student->deposit }}">
+                                @error('deposit')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -113,6 +110,47 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label>ছাত্রের ধরন <span class="text-danger">*</span></label>
+                                <select name="student_type" class="form-control">
+                                    <option selected disabled>নির্বাচন করুন</option>
+                                    <option {{$student->student_type == 'মোধাবী'? 'selected': ''}} value="মোধাবী">মোধাবী</option>
+                                    <option {{$student->student_type == 'এতিম'? 'selected': ''}} value="এতিম">এতিম</option>
+                                    <option {{$student->student_type == 'গরিব / মিসকিন'? 'selected': ''}} value="গরিব / মিসকিন">গরিব / মিসকিন</option>
+                                    <option {{$student->student_type == 'অসচ্ছল'? 'selected': ''}} value="অসচ্ছল"> অসচ্ছল</option>
+                                    <option {{$student->student_type == 'কোনটি নয়'? 'selected': ''}} value="কোনটি নয়"> কোনটি নয়</option>
+                                </select>
+                                @error('student_type')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label>জাতীয় পরিচয় ধরন <span class="text-danger">*</span></label>
+                                <select name="nid_type" class="form-control">
+                                    <option selected disabled>নির্বাচন করুন</option>
+                                    <option {{$student->nid_type == 'nid'? 'selected': ''}} value="nid">এনআইডি</option>
+                                    <option {{$student->nid_type == 'birth_reg'? 'selected': ''}} value="birth_reg">জন্মনিবন্ধন</option>
+                                </select>
+                                @error('nid_type')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label>জাতীয় পরিচয়/জন্মনিবন্ধন <span class="text-danger">*</span></label>
+                                <input type="number" name="nid_number" class="form-control" placeholder="Enter NID / Birth REG" value="{{ $student->nid_number }}">
+                                @error('nid_number')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
 
                     </div>
                     <div class="row">
@@ -120,8 +158,8 @@
                             <div class="form-group">
                                 <label>জেন্ডার <span class="text-danger">*</span></label>
                                 <select name="gender" class="form-control">
-                                    <option {{ $student->gender == 'male' ? 'selected' : '' }} value="male">Male</option>
-                                    <option {{ $student->gender == 'female' ? 'selected' : '' }} value="female">Female
+                                    <option {{ $student->gender == 'male' ? 'selected' : '' }} value="male">মেইল</option>
+                                    <option {{ $student->gender == 'female' ? 'selected' : '' }} value="female">ফিমেইল
                                     </option>
                                 </select>
                                 @error('gender')
@@ -166,17 +204,6 @@
                                 <label>ভর্তির তারিখ <span class="text-danger">*</span></label>
                                 <input type="date" name="admision_date" class="form-control" value="{{ $student->admision_date}}">
                                 @error('admision_date')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <div class="form-group">
-                                <label>ঠিকানা <span class="text-danger">*</span></label>
-                                <textarea name="address" class="form-control" placeholder="Enter student address">{{ $student->address }}</textarea>
-                                @error('address')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
